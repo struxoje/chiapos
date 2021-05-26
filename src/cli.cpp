@@ -139,6 +139,13 @@ int main(int argc, char *argv[]) try {
         HexToBytes(id, id_bytes.data());
 
         DiskPlotter plotter = DiskPlotter();
+        uint8_t phases_flags = 0;
+        if (!nobitfield) {
+            phases_flags = ENABLE_BITFIELD;
+        }
+        if (show_progress) {
+            phases_flags = phases_flags | SHOW_PROGRESS;
+        }
         plotter.CreatePlotDisk(
                 tempdir,
                 tempdir2,
@@ -153,8 +160,7 @@ int main(int argc, char *argv[]) try {
                 num_buckets,
                 num_stripes,
                 num_threads,
-                nobitfield,
-                show_progress);
+                phases_flags);
     } else if (operation == "prove") {
         if (argc < 3) {
             HelpAndQuit(options);
